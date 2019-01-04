@@ -36,6 +36,12 @@ class NextBus(object):
 		return dir[0]
 
     #Returns a list of Timepoint stops for the given Route/Direction.
+        # return list stop name and their stop id 
+        '''
+		Text: "Mall of America Transit Station",
+		"Value": "MAAM" 
+	'''
+        # this methods needs the value to return as per entered text(stop name)
 	def get_stop(self, bus_stop, bus_route, direction):
 		api_url = '{}NexTrip/Stops/{}/{}?format=json'.format(api_constants.ENDPOINT, bus_route, direction)
 		resp = requests.get(url=api_url)
@@ -57,7 +63,7 @@ class NextBus(object):
     #datetime value of the departure time.
 	def parse_time(self, time):
 		timestamp = int(re.search(r'(\d+)', time).group())
-		bus_time = datetime.datetime.fromtimestamp(timestamp / 1000)
+		bus_time = datetime.datetime.fromtimestamp(timestamp / 1000)  # the timestamp is divided by 1000 as the stamps you have provided are in milliseconds since the epoch, not seconds
 		now = datetime.datetime.now()
 		minutes = str(bus_time - now).split(":")[1] # get the minutes from the timestamps
 		return minutes
